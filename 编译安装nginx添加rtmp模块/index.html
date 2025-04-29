@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
+  <link rel="mask-icon" href="/images/favicon.png" color="#222">
+  <meta name="google-site-verification" content="google5576de427803804e.html">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/silver/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous" defer></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"arhay0612.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism-tomorrow","dark":"prism-tomorrow"},"copy_button":{"enable":true,"show_result":true,"style":"default"},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":true}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="nginx源码编译添加rtmp模块实现视频推流服务器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编译安装 nginx 添加 rtmp 模块">
+<meta property="og:url" content="https://arhay0612.github.io/%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85nginx%E6%B7%BB%E5%8A%A0rtmp%E6%A8%A1%E5%9D%97/index.html">
+<meta property="og:site_name" content="ArHay">
+<meta property="og:description" content="nginx源码编译添加rtmp模块实现视频推流服务器">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://arhay0612.github.io/images/push_rtmp_res.png">
+<meta property="og:image" content="https://arhay0612.github.io/images/m3u8-res.png">
+<meta property="article:published_time" content="2019-06-01T03:30:17.000Z">
+<meta property="article:modified_time" content="2025-04-22T08:21:26.595Z">
+<meta property="article:author" content="ArHay">
+<meta property="article:tag" content="nginx">
+<meta property="article:tag" content="rtmp">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://arhay0612.github.io/images/push_rtmp_res.png">
+
+
+<link rel="canonical" href="https://arhay0612.github.io/%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85nginx%E6%B7%BB%E5%8A%A0rtmp%E6%A8%A1%E5%9D%97/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://arhay0612.github.io/%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85nginx%E6%B7%BB%E5%8A%A0rtmp%E6%A8%A1%E5%9D%97/","path":"编译安装nginx添加rtmp模块/","title":"编译安装 nginx 添加 rtmp 模块"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>编译安装 nginx 添加 rtmp 模块 | ArHay</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script size="500" alpha="0.8" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js" defer></script>
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ArHay</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">当赤道留住雪花，眼泪融掉细沙</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96%E5%BA%93"><span class="nav-number">1.</span> <span class="nav-text">安装依赖库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BDnginx%E5%92%8Cnginx-rtmp-module%E6%BA%90%E7%A0%81"><span class="nav-number">2.</span> <span class="nav-text">下载 nginx 和 nginx-rtmp-module 源码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E5%92%8C%E5%AE%89%E8%A3%85"><span class="nav-number">3.</span> <span class="nav-text">编译和安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E7%BB%93%E6%9E%9C"><span class="nav-number">4.</span> <span class="nav-text">查看结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nginx-%E6%8E%A8%E6%B5%81%E9%85%8D%E7%BD%AE"><span class="nav-number">5.</span> <span class="nav-text">nginx 推流配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95rtmp%E6%8E%A8%E6%B5%81"><span class="nav-number">5.1.</span> <span class="nav-text">测试 rtmp 推流</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95HLS%E6%8E%A8%E6%B5%81"><span class="nav-number">5.2.</span> <span class="nav-text">测试 HLS 推流</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ArHay"
+      src="/avatar/avator.jpg">
+  <p class="site-author-name" itemprop="name">ArHay</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ArHay0612" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ArHay0612" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:719510848@qq.com" title="E-Mail → mailto:719510848@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://arhay0612.github.io/%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85nginx%E6%B7%BB%E5%8A%A0rtmp%E6%A8%A1%E5%9D%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/avatar/avator.jpg">
+      <meta itemprop="name" content="ArHay">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ArHay">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="编译安装 nginx 添加 rtmp 模块 | ArHay">
+      <meta itemprop="description" content="nginx源码编译添加rtmp模块实现视频推流服务器">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          编译安装 nginx 添加 rtmp 模块
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-06-01 11:30:17" itemprop="dateCreated datePublished" datetime="2019-06-01T11:30:17+08:00">2019-06-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-04-22 16:21:26" itemprop="dateModified" datetime="2025-04-22T16:21:26+08:00">2025-04-22</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.1k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>6 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">nginx源码编译添加rtmp模块实现视频推流服务器</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><pre><code>摘要:nginx源码编译添加rtmp模块实现视频推流服务器
+环境:deepin linux 15.10.1(基于debian9)
+</code></pre>
+<h3 id="安装依赖库"><a href="#安装依赖库" class="headerlink" title="安装依赖库"></a>安装依赖库</h3><p>执行命令前，最好执行一次 sudo apt update 更新下仓库</p>
+<p><code>sudo apt install autoconf automake</code></p>
+<p><code>sudo apt install libpcre3 libpcre3-dev</code></p>
+<p><code>sudo apt install openssl</code></p>
+<p><code>sudo apt install libssl-dev</code></p>
+<h3 id="下载nginx和nginx-rtmp-module源码"><a href="#下载nginx和nginx-rtmp-module源码" class="headerlink" title="下载nginx和nginx-rtmp-module源码"></a>下载 nginx 和 nginx-rtmp-module 源码</h3><p>进入到一个目录 (可以自己新建), 然后 clone nginx 和 rtmp 模块的源码，地址可在 github 上面查找对应的仓库，然后进行 clone 操作 (需要安装 git)</p>
+<p><code>git clone https://github.com/nginx/nginx.git --depth=1</code> //clone nginx 源码，指定克隆深度 depth 为 1 即表示只克隆最近一次 commit (clone 时间大幅缩短)</p>
+<p><code>git clone https://github.com/arut/nginx-rtmp-module.git --depth=1</code> //clone nginx-rtmp-module 源码</p>
+<p>进入到 nginx 源码目录，有一个 auto 文件夹，里面有一个名为 configure 的文件。通过命令参数调用该文件，生成 MakeFile</p>
+<p><code>cd nginx</code> // 进入到 nginx 源码目录</p>
+<p><code>./auto/configure --prefix=/opt/nginx --with-http_ssl_module --with-http_v2_module --with-http_flv_module --with-http_mp4_module --add-module=../nginx-rtmp-module/</code></p>
+<p><code>ls -al</code> // 查看当前目录 (nginx) 下的文件，会有一个产生的 MakeFile 文件</p>
+<h3 id="编译和安装"><a href="#编译和安装" class="headerlink" title="编译和安装"></a>编译和安装</h3><p>当前目录还是位于上一步的 nginx 目录</p>
+<p><code>make</code> // 编译</p>
+<p><code>sudo make install</code> // 安装</p>
+<h3 id="查看结果"><a href="#查看结果" class="headerlink" title="查看结果"></a>查看结果</h3><p><code>ls -l /opt/nginx/</code> // 查看 opt 目录下 nginx 目录的内容</p>
+<p><code>sudo /opt/nginx/sbin/nginx</code> // 启动 nginx 服务，默认只能用 root 启动，所以加 sudo</p>
+<p><code>sudo chmod u+s /opt/nginx/sbin/nginx</code> // 为 nginx 文件加上 setuid 标志.(setuid 只对文件有效). 设置后可以通过普通用户就可以启动</p>
+<ul>
+<li><p>关于 chmod 扩展：如果是一个可执行文件，那么在执行时，一般该文件只拥有调用该文件的用户具有的权限。而 setuid, setgid 可以来改变这种设置:</p>
+<p>setuid: 设置使文件在执行阶段具有文件所有者的权限</p>
+<p>setgid: 该权限只对目录有效。目录被设置该位后，任何用户在此目录下创建的文件都具有和该目录所属的组相同的组.</p>
+<p>sticky bit: 该位可以理解为防删除位。一个文件是否可以被某用户删除，主要取决于该文件所属的组是否对该用户具有写权限。如果没有写权限，则这个目录下的所有文件都不能被删除，同时也不能添加新的文件。如果希望用户能够添加文件但同时不能删除文件，则可以对文件使用 sticky bit 位。设置该位后，就算用户对目录具有写权限，也不能删除该文件，该权限只对目录有效.</p>
+<p>具体使用如下</p>
+<p>chmod u+s temp — 为 temp 文件加上 setuid 标志. (setuid 只对文件有效)</p>
+<p>chmod g+s tempdir — 为 tempdir 目录加上 setgid 标志 (setgid 只对目录有效)</p>
+<p>chmod o+t temp — 为 temp 文件加上 sticky 标志 (sticky 只对文件有效) *</p>
+</li>
+</ul>
+<p>浏览器打开 localhost, 正常就能打开 nginx 默认的首页面</p>
+<h3 id="nginx-推流配置"><a href="#nginx-推流配置" class="headerlink" title="nginx 推流配置"></a>nginx 推流配置</h3><p><code>sudo vim /opt/nginx/conf/nginx.conf</code></p>
+<pre><code>rtmp {
+  server {
+      listen 1935;
+      application rtmplive_demo {
+          live on;
+          max_connections 1024;
+      }
+      application hlsvideo {
+          live on;
+          hls on;
+          hls_path /home/bz/Desktop/video/hlsvideo; # 推流存放文件夹,自定义
+          hls_fragment 1s;
+      }
+  }
+}
+
+location ^~ /hlsvideo {
+  types {
+    application/vnd.apple.mpegurl    m3u8;
+    video/mp2t ts;
+  }
+  root /home/bz/Desktop/video; # 此处不能写/home/bz/Desktop/video/hlsvideo,因为路径中带了一层hlsvideo了,如果写上hlsvideo会导致读取m3u8文件404
+  add_header Cache-Control    no-cache;
+}
+</code></pre>
+<p><code>sudo /opt/nginx/sbin/nginx -t</code> // 测试配置文件是否 ok</p>
+<p><code>sudo /opt/nginx/sbin/nginx -s reload</code></p>
+<h4 id="测试rtmp推流"><a href="#测试rtmp推流" class="headerlink" title="测试rtmp推流"></a>测试 rtmp 推流</h4><p><code>ffmpeg -re -i ./龙珠超.布罗利.mp4 -vcodec libx264 -vprofile baseline -acodec aac -ar 44100 -strict -2 -ac 1 -f flv -s 1280x720 -q 10 rtmp://192.168.100.31:1935/rtmplive_demo/longzhuchao</code></p>
+<pre><code>注:rtmp://192.168.100.31:1935/rtmplive_demo/longzhuchao rtmp流地址,其中rtmplive_demo必须和nginx.conf中
+application中的rtmplive_demo名称必须一致,否则导致推流不成功
+</code></pre>
+<p>打开 VLC Media Player 测试</p>
+<p>在工具栏” 媒体 -&gt; 打开网络串流” 然后输入 rtmp://192.168.100.31:1935/rtmplive_demo/longzhuchao 点击确定即可进行直播预览转换后的 rtmp 视频流。效果如图</p>
+<p><img src="/images/push_rtmp_res.png"></p>
+<h4 id="测试HLS推流"><a href="#测试HLS推流" class="headerlink" title="测试HLS推流"></a>测试 HLS 推流</h4><p><code>ffmpeg -re -i ./龙珠超.布罗利.mp4 -vcodec libx264 -vprofile baseline -acodec aac -ar 44100 -strict -2 -ac 1 -f flv -s 1280x720 -q 10 rtmp://192.168.100.31:1935/hlsvideo/longzhuchao</code></p>
+<pre><code>注:rtmp://192.168.100.31:1935/hlsvideo/longzhuchao,其中hlsvideo必须和nginx.conf中
+application中hlsvideo名称必须一致,否则导致推流不成功
+</code></pre>
+<p>打开 VLC Media Player 测试</p>
+<p>HLS 测试地址是 http 协议的。访问路径是 nginx 中 http 节点下 server 节点配置的。此处是 <a target="_blank" rel="noopener" href="http://192.168.100.31/hlsvideo/longzhuchao.m3u8">http://192.168.100.31/hlsvideo/longzhuchao.m3u8</a></p>
+<p>在工具栏” 媒体 -&gt; 打开网络串流” 然后输入 <a target="_blank" rel="noopener" href="http://192.168.100.31/hlsvideo/longzhuchao.m3u8%E7%82%B9%E5%87%BB%E7%A1%AE%E5%AE%9A%E5%8D%B3%E5%8F%AF%E8%BF%9B%E8%A1%8C%E7%9B%B4%E6%92%AD%E9%A2%84%E8%A7%88%E8%BD%AC%E6%8D%A2%E5%90%8E%E7%9A%84rtmp%E8%A7%86%E9%A2%91%E6%B5%81.%E6%95%88%E6%9E%9C%E5%A6%82%E5%9B%BE">http://192.168.100.31/hlsvideo/longzhuchao.m3u8 点击确定即可进行直播预览转换后的 rtmp 视频流。效果如图</a></p>
+<p><img src="/images/m3u8-res.png"></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <span class="social-link">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </span>
+
+          <img class="social-item-img" src="/images/wechat_channel.jpg">
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/nginx/" rel="tag"># nginx</a>
+              <a href="/tags/rtmp/" rel="tag"># rtmp</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/nginx-rtmp-module-ffmpeg%E8%A7%86%E9%A2%91%E6%8E%A8%E6%B5%81%E5%92%8Crtsp%E8%BD%ACrtmp%E5%8F%8Ahls/" rel="prev" title="nginx-rtmp-module-ffmpeg 视频推流和 rtsp 转 rtmp 及 hls">
+                  <i class="fa fa-angle-left"></i> nginx-rtmp-module-ffmpeg 视频推流和 rtsp 转 rtmp 及 hls
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/linux%E4%BD%BF%E7%94%A8systemd%E6%96%B9%E5%BC%8F%E6%B7%BB%E5%8A%A0%E5%BC%80%E6%9C%BA%E8%87%AA%E5%8A%A8%E6%89%A7%E8%A1%8C%E8%84%9A%E6%9C%AC/" rel="next" title="linux 使用 systemd 方式添加开机自动执行脚本">
+                  linux 使用 systemd 方式添加开机自动执行脚本 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-carrot"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">ArHay</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">20k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:41</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+
+  <a href="https://github.com/ArHay0612" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+<!-- hexo injector body_end start --><script data-pjax src="https://registry.npmmirror.com/oh-my-live2d/latest/files"></script><script>const oml2d = OML2D.loadOml2d({dockedPosition:"right",menus:{items:[{id:"github",icon:"icon-switch",title:"我的github",onClick:()=>window.open('https://github.com/ArHay0612')}]},mobileDisplay:true,models:[{"path":"\\live2d_models\\fll\\fll.model3.json","mobilePosition":[-10,23],"mobileScale":0.1,"mobileStageStyle":{"width":180,"height":166},"motionPreloadStrategy":"IDLE","position":[-10,35],"scale":0.15,"stageStyle":{"width":300,"height":450}}],parentElement:document.body,primaryColor:"var(--btn-bg)",sayHello:false,tips:{style: {"width":230,"height":120,"left":"calc(50% - 20px)","top":"-100px"},mobileStyle: {"width":180,"height":80,"left":"calc(50% - 30px)","top":"-100px"},idleTips:{interval:10000,duration:1500,message:["你好呀,欢迎来到ArHay的小站~"]}}});</script><!-- hexo injector body_end end --></body>
+</html>
