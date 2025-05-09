@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
+  <link rel="mask-icon" href="/images/favicon.png" color="#222">
+  <meta name="google-site-verification" content="google5576de427803804e.html">
+  <meta name="msvalidate.01" content="CE311B798241C396C384A6555CADE3D4">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/silver/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous" defer></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"arhay0612.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism-tomorrow","dark":"prism-tomorrow"},"copy_button":{"enable":true,"show_result":true,"style":"default"},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":true}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="通過hexo生成或維護個人博客靜態網頁,更換Next主題，並deploy到github">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 hexo+Next 創建和部署個人博客">
+<meta property="og:url" content="https://arhay0612.github.io/%E4%BD%BF%E7%94%A8hexo%E5%89%B5%E5%BB%BA%E5%92%8C%E9%83%A8%E7%BD%B2%E5%80%8B%E4%BA%BA%E5%8D%9A%E5%AE%A2/index.html">
+<meta property="og:site_name" content="ArHay">
+<meta property="og:description" content="通過hexo生成或維護個人博客靜態網頁,更換Next主題，並deploy到github">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://arhay0612.github.io/images/live2d_demo.jpg">
+<meta property="article:published_time" content="2025-04-24T01:57:58.000Z">
+<meta property="article:modified_time" content="2025-05-07T02:07:41.988Z">
+<meta property="article:author" content="ArHay">
+<meta property="article:tag" content="nodejs">
+<meta property="article:tag" content="hexo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://arhay0612.github.io/images/live2d_demo.jpg">
+
+
+<link rel="canonical" href="https://arhay0612.github.io/%E4%BD%BF%E7%94%A8hexo%E5%89%B5%E5%BB%BA%E5%92%8C%E9%83%A8%E7%BD%B2%E5%80%8B%E4%BA%BA%E5%8D%9A%E5%AE%A2/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://arhay0612.github.io/%E4%BD%BF%E7%94%A8hexo%E5%89%B5%E5%BB%BA%E5%92%8C%E9%83%A8%E7%BD%B2%E5%80%8B%E4%BA%BA%E5%8D%9A%E5%AE%A2/","path":"使用hexo創建和部署個人博客/","title":"使用 hexo+Next 創建和部署個人博客"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>使用 hexo+Next 創建和部署個人博客 | ArHay</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script size="500" alpha="0.8" zIndex="-1" src="https://cdnjs.cloudflare.com/ajax/libs/ribbon.js/1.0.2/ribbon.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+  <script src="/js/third-party/pace.js" defer></script>
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">ArHay</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">当赤道留住雪花，眼泪融掉细沙</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9DNodeJs%E5%92%8CGit"><span class="nav-number">1.</span> <span class="nav-text">安裝 NodeJs 和 Git</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD"><span class="nav-number">1.1.</span> <span class="nav-text">下载</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9Dhexo"><span class="nav-number">2.</span> <span class="nav-text">安裝 hexo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hexo%E6%96%B0%E5%BB%BA%E9%A0%85%E7%9B%AE%EF%BC%8C%E6%88%96%E5%BE%9Egithub%E4%B8%8B%E8%BC%89%E5%8D%9A%E5%AE%A2%E6%BA%90%E7%A2%BC"><span class="nav-number">3.</span> <span class="nav-text">hexo 新建項目，或從 github 下載博客源碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEhexo"><span class="nav-number">4.</span> <span class="nav-text">配置 hexo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%B5%E5%BB%BA%E6%96%87%E7%AB%A0"><span class="nav-number">5.</span> <span class="nav-text">創建文章</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E9%9D%9C%E6%85%8B%E6%96%87%E4%BB%B6"><span class="nav-number">6.</span> <span class="nav-text">生成靜態文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E9%A0%90%E8%A6%BD"><span class="nav-number">7.</span> <span class="nav-text">本地預覽</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2%E5%88%B0GithubPage"><span class="nav-number">8.</span> <span class="nav-text">部署到 GithubPage</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-hexo-deployer-git"><span class="nav-number">8.1.</span> <span class="nav-text">安装 hexo-deployer-git</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E8%BE%91-config-yml-%E6%96%87%E4%BB%B6"><span class="nav-number">8.2.</span> <span class="nav-text">编辑 _config.yml 文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2"><span class="nav-number">8.3.</span> <span class="nav-text">部署</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A8%AA%E5%95%8F%E5%8D%9A%E5%AE%A2"><span class="nav-number">9.</span> <span class="nav-text">訪問博客</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E9%A1%8C%E9%85%8D%E7%BD%AE"><span class="nav-number">10.</span> <span class="nav-text">主題配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%9DNext%E4%B8%BB%E9%A1%8C"><span class="nav-number">10.1.</span> <span class="nav-text">安裝 Next 主題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B7%A8%E8%BC%AF-config-yml-%E6%96%87%E4%BB%B6"><span class="nav-number">10.2.</span> <span class="nav-text">編輯 _config.yml 文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Next-%E4%B8%BB%E9%A1%8C%E9%81%B8%E6%93%87"><span class="nav-number">10.3.</span> <span class="nav-text">Next 主題選擇</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Next-%E4%B8%BB%E9%A1%8C%E9%85%8D%E7%BD%AE"><span class="nav-number">10.4.</span> <span class="nav-text">Next 主題配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%92%E4%BB%B6%E9%81%B8%E6%93%87"><span class="nav-number">11.</span> <span class="nav-text">插件選擇</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E6%90%9C%E7%B4%A2"><span class="nav-number">11.1.</span> <span class="nav-text">本地搜索</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D"><span class="nav-number">11.1.1.</span> <span class="nav-text">安裝</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%8F%92%E4%BB%B6"><span class="nav-number">11.1.2.</span> <span class="nav-text">配置插件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hexo-Pangu"><span class="nav-number">11.2.</span> <span class="nav-text">Hexo Pangu</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-1"><span class="nav-number">11.2.1.</span> <span class="nav-text">安裝</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hexo-Word-Counter"><span class="nav-number">11.3.</span> <span class="nav-text">Hexo Word Counter</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-2"><span class="nav-number">11.3.1.</span> <span class="nav-text">安裝</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%8F%92%E4%BB%B6-1"><span class="nav-number">11.3.2.</span> <span class="nav-text">配置插件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#oh-my-live2d"><span class="nav-number">11.4.</span> <span class="nav-text">oh-my-live2d</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-3"><span class="nav-number">11.4.1.</span> <span class="nav-text">安裝</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%8F%92%E4%BB%B6-2"><span class="nav-number">11.4.2.</span> <span class="nav-text">配置插件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9B%B4%E6%8F%9B%E6%A8%A1%E5%9E%8B"><span class="nav-number">11.4.3.</span> <span class="nav-text">更換模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9C%A8%E4%BA%92%E8%81%AF%E7%B6%B2%E4%B8%8A%E4%B8%8B%E8%BC%89%E8%87%AA%E5%B7%B1%E5%96%9C%E6%AD%A1%E7%9A%84live2D%E6%A8%A1%E5%9E%8B"><span class="nav-number">11.4.3.1.</span> <span class="nav-text">在互聯網上下載自己喜歡的 live2D 模型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%A0%85%E7%9B%AE%E5%BC%95%E5%85%A5%E6%A8%A1%E5%9E%8B"><span class="nav-number">11.4.3.2.</span> <span class="nav-text">項目引入模型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%A0%90%E8%A6%BD"><span class="nav-number">11.4.3.3.</span> <span class="nav-text">預覽</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%9A%E5%AE%A2%E8%A8%AA%E5%AE%A2%E5%92%8C%E9%96%B1%E8%AE%80%E9%87%8F%E7%B5%B1%E8%A8%88"><span class="nav-number">11.5.</span> <span class="nav-text">博客訪客和閱讀量統計</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%8F%92%E4%BB%B6-3"><span class="nav-number">11.5.1.</span> <span class="nav-text">配置插件</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ArHay"
+      src="/avatar/avator.jpg">
+  <p class="site-author-name" itemprop="name">ArHay</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ArHay0612" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ArHay0612" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:719510848@qq.com" title="E-Mail → mailto:719510848@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://arhay0612.github.io/%E4%BD%BF%E7%94%A8hexo%E5%89%B5%E5%BB%BA%E5%92%8C%E9%83%A8%E7%BD%B2%E5%80%8B%E4%BA%BA%E5%8D%9A%E5%AE%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/avatar/avator.jpg">
+      <meta itemprop="name" content="ArHay">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ArHay">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="使用 hexo+Next 創建和部署個人博客 | ArHay">
+      <meta itemprop="description" content="通過hexo生成或維護個人博客靜態網頁,更換Next主題，並deploy到github">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用 hexo+Next 創建和部署個人博客
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-04-24 09:57:58" itemprop="dateCreated datePublished" datetime="2025-04-24T09:57:58+08:00">2025-04-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-05-07 10:07:41" itemprop="dateModified" datetime="2025-05-07T10:07:41+08:00">2025-05-07</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.2k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>6 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">通過hexo生成或維護個人博客靜態網頁,更換Next主題，並deploy到github</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="安裝NodeJs和Git"><a href="#安裝NodeJs和Git" class="headerlink" title="安裝NodeJs和Git"></a>安裝 NodeJs 和 Git</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://nodejs.org/">Node.js</a></li>
+<li><a target="_blank" rel="noopener" href="https://git-scm.com/">Git</a></li>
+</ul>
+<p>根據安裝界面自行安裝</p>
+<h2 id="安裝hexo"><a href="#安裝hexo" class="headerlink" title="安裝hexo"></a>安裝 hexo</h2><p><a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/index.html">Hexo 官网</a></p>
+<p>打开终端（或命令行窗口），运行以下命令来安装 Hexo (-g 為全局安裝)</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> hexo-cli <span class="token parameter variable">-g</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="hexo新建項目，或從github下載博客源碼"><a href="#hexo新建項目，或從github下載博客源碼" class="headerlink" title="hexo新建項目，或從github下載博客源碼"></a>hexo 新建項目，或從 github 下載博客源碼</h2><p>在你选择存储博客文件的目录中，执行以下命令来创建一个新的 Hexo 项目：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hexo init blog
+<span class="token builtin class-name">cd</span> blog
+<span class="token function">npm</span> <span class="token function">install</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="配置hexo"><a href="#配置hexo" class="headerlink" title="配置hexo"></a>配置 hexo</h2><p>编辑<strong>根目錄</strong>下的 _config.yml 文件，配置你的基本信息和其他相关设置</p>
+<p>具體參考：<a target="_blank" rel="noopener" href="https://hexo.io/docs/configuration">https://hexo.io/docs/configuration</a></p>
+<p>例如：</p>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token comment"># Site</span>
+<span class="token key atrule">title</span><span class="token punctuation">:</span> ArHay
+<span class="token key atrule">subtitle</span><span class="token punctuation">:</span> 当赤道留住雪花，眼泪融掉细沙
+<span class="token key atrule">description</span><span class="token punctuation">:</span> 
+<span class="token key atrule">keywords</span><span class="token punctuation">:</span> ArHay
+<span class="token key atrule">author</span><span class="token punctuation">:</span> ArHay
+<span class="token key atrule">language</span><span class="token punctuation">:</span> zh<span class="token punctuation">-</span>CN
+<span class="token key atrule">timezone</span><span class="token punctuation">:</span> <span class="token string">''</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="創建文章"><a href="#創建文章" class="headerlink" title="創建文章"></a>創建文章</h2><p>使用以下命令创建新的博客文章</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hexo new post <span class="token string">"My New Post"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="生成靜態文件"><a href="#生成靜態文件" class="headerlink" title="生成靜態文件"></a>生成靜態文件</h2><p>在博客根目录下执行以下命令生成静态文件，文件存儲在 public 文件夾下：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hexo generate<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>或</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hexo g<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="本地預覽"><a href="#本地預覽" class="headerlink" title="本地預覽"></a>本地預覽</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hexo server<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>或</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hexo s<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="部署到GithubPage"><a href="#部署到GithubPage" class="headerlink" title="部署到GithubPage"></a>部署到 GithubPage</h2><h3 id="安装-hexo-deployer-git"><a href="#安装-hexo-deployer-git" class="headerlink" title="安装 hexo-deployer-git"></a>安装 hexo-deployer-git</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> hexo-deployer-git <span class="token parameter variable">--save</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>参数 –save 的作用是在项目下的 package.json 文件记录安装过的依赖包名称。</p>
+<p>当复制项目到另外的电脑上，只需运行命令: npm i 就能自动安装项目用到的依赖包。</p>
+<h3 id="编辑-config-yml-文件"><a href="#编辑-config-yml-文件" class="headerlink" title="编辑 _config.yml 文件"></a>编辑 _config.yml 文件</h3><p>配置你的博客信息、GitHub Pages 信息和其他相关设置</p>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token comment"># Deployment</span>
+<span class="token comment">## Docs: https://hexo.io/docs/one-command-deployment</span>
+<span class="token key atrule">deploy</span><span class="token punctuation">:</span>
+  <span class="token key atrule">type</span><span class="token punctuation">:</span> git
+  <span class="token key atrule">repository</span><span class="token punctuation">:</span> https<span class="token punctuation">:</span>//github.com/ArHay0612/arhay0612.github.io.git
+  <span class="token key atrule">branch</span><span class="token punctuation">:</span> master<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h3><p>运行以下命令将生成的静态文件部署到 GitHub Pages</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hexo deploy<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>或</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">hexo d<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>然後根據彈窗完成登錄，即可部署完成</p>
+<h2 id="訪問博客"><a href="#訪問博客" class="headerlink" title="訪問博客"></a>訪問博客</h2><p><a href="https://arhay0612.github.io/">https://ArHay0612.github.io</a></p>
+<p>ArHay0612 是我的用戶名。請自行替換到自己的 github usernames</p>
+<h2 id="主題配置"><a href="#主題配置" class="headerlink" title="主題配置"></a>主題配置</h2><p>我用的是 Next，就以 Next 為例</p>
+<p>參考:</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/next-theme/hexo-theme-next">Next Github Page</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://theme-next.js.org/">NexT Documentation</a></p>
+</li>
+</ul>
+<h3 id="安裝Next主題"><a href="#安裝Next主題" class="headerlink" title="安裝Next主題"></a>安裝 Next 主題</h3><p>在博客項目根目錄下把 Next 主題 clone 到 themes/next 文件夾</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> hexo-site
+<span class="token function">git</span> clone https://github.com/next-theme/hexo-theme-next themes/next<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h3 id="編輯-config-yml-文件"><a href="#編輯-config-yml-文件" class="headerlink" title="編輯 _config.yml 文件"></a>編輯 _config.yml 文件</h3><p>在<strong>根目錄下</strong>找到 _config.yml</p>
+<p>然後在 theme 配置項修改成</p>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">theme</span><span class="token punctuation">:</span> next<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="Next-主題選擇"><a href="#Next-主題選擇" class="headerlink" title="Next 主題選擇"></a>Next 主題選擇</h3><p>next 自帶 4 種類型的主題方案</p>
+<ul>
+<li>Muse</li>
+<li>Mist</li>
+<li>Pisces</li>
+<li>Gemini</li>
+</ul>
+<p>在 <strong><code>themes\next\_config.yml</code></strong> 文件下<br>搜索 <code>Scheme Settings</code></p>
+<p>然後選擇自己喜歡的主題方案</p>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token comment"># Schemes</span>
+<span class="token comment"># scheme: Muse</span>
+<span class="token comment"># scheme: Mist</span>
+<span class="token key atrule">scheme</span><span class="token punctuation">:</span> Pisces
+<span class="token comment"># scheme: Gemini</span>
+
+<span class="token comment"># Dark Mode</span>
+<span class="token key atrule">darkmode</span><span class="token punctuation">:</span> <span class="token boolean important">true</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="Next-主題配置"><a href="#Next-主題配置" class="headerlink" title="Next 主題配置"></a>Next 主題配置</h3><p>Next 主題所有配置都在 <strong><code>themes\next\_config.yml</code></strong> 文件下</p>
+<p>根據需求選擇自己需要的內容，如菜單，統計，搜索，背景等……</p>
+<p>具體參考：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://theme-next.js.org/docs/theme-settings/">Next 主題設置 documentation</a></li>
+</ul>
+<p>例如：</p>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">menu</span><span class="token punctuation">:</span>
+  <span class="token key atrule">home</span><span class="token punctuation">:</span> / <span class="token punctuation">|</span><span class="token punctuation">|</span> fa fa<span class="token punctuation">-</span>home <span class="token comment">#主頁</span>
+  <span class="token key atrule">about</span><span class="token punctuation">:</span> /about/ <span class="token punctuation">|</span><span class="token punctuation">|</span> fa fa<span class="token punctuation">-</span>user <span class="token comment">#關於頁</span>
+  <span class="token key atrule">tags</span><span class="token punctuation">:</span> /tags/ <span class="token punctuation">|</span><span class="token punctuation">|</span> fa fa<span class="token punctuation">-</span>tags  <span class="token comment">#標籤</span>
+  <span class="token comment">#categories: /categories/ || fa fa-th</span>
+  <span class="token key atrule">archives</span><span class="token punctuation">:</span> /archives/ <span class="token punctuation">|</span><span class="token punctuation">|</span> fa fa<span class="token punctuation">-</span>archive <span class="token comment">#歸檔</span>
+  <span class="token comment">#schedule: /schedule/ || fa fa-calendar</span>
+  <span class="token comment">#sitemap: /sitemap.xml || fa fa-sitemap</span>
+  <span class="token comment">#commonweal: /404/ || fa fa-heartbeat</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="插件選擇"><a href="#插件選擇" class="headerlink" title="插件選擇"></a>插件選擇</h2><h3 id="本地搜索"><a href="#本地搜索" class="headerlink" title="本地搜索"></a>本地搜索</h3><p>該功能允許用戶在網站內快速搜索文章內容，而不依賴於外部搜索服務（如 Algolia）。本地搜索的數據由 Hexo 生成，並存儲在靜態文件中，適合小型或中型博客。</p>
+<p>參考：<a target="_blank" rel="noopener" href="https://github.com/next-theme/hexo-generator-searchdb">https://github.com/next-theme/hexo-generator-searchdb</a></p>
+<h4 id="安裝"><a href="#安裝" class="headerlink" title="安裝"></a>安裝</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> hexo-generator-searchdb <span class="token parameter variable">--save</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h4 id="配置插件"><a href="#配置插件" class="headerlink" title="配置插件"></a>配置插件</h4><p>在 Next 的配置文件 <strong><code>themes\next\_config.yml</code></strong> 中修改成以下內容：</p>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token comment"># Local Search</span>
+<span class="token comment"># Dependencies: https://github.com/next-theme/hexo-generator-searchdb</span>
+<span class="token key atrule">local_search</span><span class="token punctuation">:</span>
+  <span class="token key atrule">enable</span><span class="token punctuation">:</span> <span class="token boolean important">true</span> <span class="token comment">#控制是否啟用本地搜索功能</span>
+  <span class="token comment"># 設置每篇文章中顯示的搜索結果數量。 -1 顯示所有。</span>
+  <span class="token key atrule">top_n_per_article</span><span class="token punctuation">:</span> <span class="token number">1</span>
+  <span class="token comment"># 控制是否將 HTML 字符（如 &amp;lt; 和 &amp;gt;）轉換為可讀的文本。</span>
+  <span class="token key atrule">unescape</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+  <span class="token comment"># 控制是否在頁面加載時預加載搜索數據</span>
+  <span class="token key atrule">preload</span><span class="token punctuation">:</span> <span class="token boolean important">true</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="Hexo-Pangu"><a href="#Hexo-Pangu" class="headerlink" title="Hexo Pangu"></a>Hexo Pangu</h3><p>Hexo Pangu 是一個用於自動處理中英文之間空格的插件，基於 Pangu.js。它的作用是自動在中文與英文、數字、符號之間插入適當的空格，從而提升文章的可讀性，符合中文排版的最佳實踐。</p>
+<p>參考：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/next-theme/hexo-pangu">https://github.com/next-theme/hexo-pangu</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/vinta/pangu.js">https://github.com/vinta/pangu.js</a></li>
+</ul>
+<h4 id="安裝-1"><a href="#安裝-1" class="headerlink" title="安裝"></a>安裝</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> hexo-pangu <span class="token parameter variable">--save</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="Hexo-Word-Counter"><a href="#Hexo-Word-Counter" class="headerlink" title="Hexo Word Counter"></a>Hexo Word Counter</h3><p>Hexo Word Counter 是一個用於統計文章字數和預估閱讀時間的插件。它的主要作用是為每篇文章顯示字數和閱讀時間，幫助讀者了解文章的長度和閱讀所需的時間，從而提升用戶體驗。</p>
+<p>參考：<a target="_blank" rel="noopener" href="https://github.com/next-theme/hexo-word-counter">https://github.com/next-theme/hexo-word-counter</a></p>
+<h4 id="安裝-2"><a href="#安裝-2" class="headerlink" title="安裝"></a>安裝</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> hexo-word-counter <span class="token parameter variable">--save</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h4 id="配置插件-1"><a href="#配置插件-1" class="headerlink" title="配置插件"></a>配置插件</h4><p>在 Next 的配置文件 <strong><code>themes\next\_config.yml</code></strong> 中修改成以下內容：</p>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">symbols_count_time</span><span class="token punctuation">:</span>
+  <span class="token key atrule">separated_meta</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+  <span class="token key atrule">item_text_total</span><span class="token punctuation">:</span> <span class="token boolean important">false</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="oh-my-live2d"><a href="#oh-my-live2d" class="headerlink" title="oh-my-live2d"></a>oh-my-live2d</h3><p>是一個用於在 Hexo 博客中添加 Live2D 模型 的插件。它的作用是為網站添加一個可交互的 2D 虛擬角色，通常顯示在網站的角落，增強網站的趣味性和吸引力。（看板娘）</p>
+<p>參考：<a target="_blank" rel="noopener" href="https://github.com/next-theme/hexo-word-counter">https://github.com/next-theme/hexo-word-counter</a></p>
+<h4 id="安裝-3"><a href="#安裝-3" class="headerlink" title="安裝"></a>安裝</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">npm</span> <span class="token function">install</span> hexo-oh-my-live2d <span class="token parameter variable">--save</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h4 id="配置插件-2"><a href="#配置插件-2" class="headerlink" title="配置插件"></a>配置插件</h4><p>在博客根目錄的配置文件 <strong><code>.\_config.yml</code></strong> 中修改成以下內容：</p>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">OhMyLive2d</span><span class="token punctuation">:</span>
+  <span class="token key atrule">enable</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+  <span class="token key atrule">CDN</span><span class="token punctuation">:</span> https<span class="token punctuation">:</span>//registry.npmmirror.com/oh<span class="token punctuation">-</span>my<span class="token punctuation">-</span>live2d/latest/files
+  <span class="token key atrule">option</span><span class="token punctuation">:</span>
+    <span class="token key atrule">dockedPosition</span><span class="token punctuation">:</span> <span class="token string">'right'</span> <span class="token comment"># 模型停靠位置 默认值: 'right' 可选值: 'left' | 'right'</span>
+    <span class="token key atrule">menus</span><span class="token punctuation">:</span> <span class="token comment"># 侧边栏菜单配置</span>
+      <span class="token key atrule">items</span><span class="token punctuation">:</span>  <span class="token comment"># 菜单项配置</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">id</span><span class="token punctuation">:</span> <span class="token string">'github'</span>
+          <span class="token key atrule">icon</span><span class="token punctuation">:</span> <span class="token string">'icon-switch'</span>
+          <span class="token key atrule">title</span><span class="token punctuation">:</span> <span class="token string">'我的github'</span>
+          <span class="token key atrule">onClick</span><span class="token punctuation">:</span> ()=<span class="token punctuation">&gt;</span>window.open('https<span class="token punctuation">:</span>//github.com/ArHay0612')
+
+    <span class="token key atrule">mobileDisplay</span><span class="token punctuation">:</span> <span class="token boolean important">true</span> <span class="token comment"># 是否在移动端显示</span>
+    <span class="token key atrule">models</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">path</span><span class="token punctuation">:</span> \live2d_models\fll\fll.model3.json <span class="token comment"># 模型的路径</span>
+        <span class="token key atrule">mobilePosition</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token number">-10</span><span class="token punctuation">,</span> <span class="token number">23</span><span class="token punctuation">]</span> <span class="token comment"># 移动端时模型在舞台中的位置。 默认值: [0,0] [横坐标, 纵坐标]</span>
+        <span class="token key atrule">mobileScale</span><span class="token punctuation">:</span> <span class="token number">0.1</span> <span class="token comment"># 移动端时模型的缩放比例 默认值: 0.1</span>
+        <span class="token key atrule">mobileStageStyle</span><span class="token punctuation">:</span> <span class="token comment"># 移动端时舞台的样式</span>
+          <span class="token key atrule">width</span><span class="token punctuation">:</span> <span class="token number">180</span>
+          <span class="token key atrule">height</span><span class="token punctuation">:</span> <span class="token number">166</span>
+        <span class="token key atrule">motionPreloadStrategy</span><span class="token punctuation">:</span> IDLE <span class="token comment"># 动作预加载策略 默认值: IDLE 可选值: ALL | IDLE | NONE</span>
+        <span class="token key atrule">position</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token number">-10</span><span class="token punctuation">,</span> <span class="token number">35</span><span class="token punctuation">]</span> <span class="token comment"># 模型在舞台中的位置。 默认值: [0,0] [横坐标, 纵坐标]</span>
+        <span class="token key atrule">scale</span><span class="token punctuation">:</span> <span class="token number">0.15</span> <span class="token comment"># 模型的缩放比例 默认值: 0.1</span>
+        <span class="token comment"># showHitAreaFrames: false # 是否显示点击区域 默认值: false</span>
+        <span class="token key atrule">stageStyle</span><span class="token punctuation">:</span>
+          <span class="token key atrule">width</span><span class="token punctuation">:</span> <span class="token number">300</span>
+          <span class="token key atrule">height</span><span class="token punctuation">:</span> <span class="token number">450</span>
+    <span class="token key atrule">parentElement</span><span class="token punctuation">:</span> document.body <span class="token comment">#为组件提供一个父元素，如果未指定则默认挂载到 body 中</span>
+    <span class="token key atrule">primaryColor</span><span class="token punctuation">:</span> <span class="token string">'var(--btn-bg)'</span> <span class="token comment"># 主题色 支持变量</span>
+    <span class="token key atrule">sayHello</span><span class="token punctuation">:</span> <span class="token boolean important">false</span> <span class="token comment"># 是否在初始化阶段打印项目信息</span>
+    <span class="token key atrule">tips</span><span class="token punctuation">:</span>
+      <span class="token key atrule">style</span><span class="token punctuation">:</span>
+        <span class="token key atrule">width</span><span class="token punctuation">:</span> <span class="token number">230</span>
+        <span class="token key atrule">height</span><span class="token punctuation">:</span> <span class="token number">120</span>
+        <span class="token key atrule">left</span><span class="token punctuation">:</span> calc(50% <span class="token punctuation">-</span> 20px)
+        <span class="token key atrule">top</span><span class="token punctuation">:</span> <span class="token punctuation">-</span>100px
+      <span class="token key atrule">mobileStyle</span><span class="token punctuation">:</span>
+        <span class="token key atrule">width</span><span class="token punctuation">:</span> <span class="token number">180</span>
+        <span class="token key atrule">height</span><span class="token punctuation">:</span> <span class="token number">80</span>
+        <span class="token key atrule">left</span><span class="token punctuation">:</span> calc(50% <span class="token punctuation">-</span> 30px)
+        <span class="token key atrule">top</span><span class="token punctuation">:</span> <span class="token punctuation">-</span>100px
+      <span class="token key atrule">idleTips</span><span class="token punctuation">:</span>
+        <span class="token key atrule">interval</span><span class="token punctuation">:</span> <span class="token number">10000</span>
+        <span class="token key atrule">duration</span><span class="token punctuation">:</span> <span class="token number">1500</span>
+        <span class="token key atrule">message</span><span class="token punctuation">:</span>
+          <span class="token punctuation">-</span> 你好呀<span class="token punctuation">,</span>欢迎来到ArHay的小站~<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="更換模型"><a href="#更換模型" class="headerlink" title="更換模型"></a>更換模型</h4><h5 id="在互聯網上下載自己喜歡的live2D模型"><a href="#在互聯網上下載自己喜歡的live2D模型" class="headerlink" title="在互聯網上下載自己喜歡的live2D模型"></a>在互聯網上下載自己喜歡的 live2D 模型</h5><p>參考：</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.live2d.com/zh-CHS/learn/sample/">Live2D 官方示例数据集（可免费下载</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.aplaybox.com/model/model">模之屋</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/Eikanya/Live2d-model">GitHub 用戶 Eikanya 分享</a></p>
+</li>
+</ul>
+<h5 id="項目引入模型"><a href="#項目引入模型" class="headerlink" title="項目引入模型"></a>項目引入模型</h5><p>在 source 文件夾下，新建文件夾 <code>live2d_models\</code></p>
+<p>把下載下來的整個 live2d 資源包整個放進 <code>live2d_models\</code> 文件夾中</p>
+<p>然後修改 Hexo 的主配置文件 <code>_config.yml</code></p>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">models</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token key atrule">path</span><span class="token punctuation">:</span> \live2d_models\fll\fll.model3.json <span class="token comment"># 模型的路径</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>此處路徑應為這個模型包下的 json 文件</p>
+<h5 id="預覽"><a href="#預覽" class="headerlink" title="預覽"></a>預覽</h5><p><img src="/images/live2d_demo.jpg" alt="live2d_demo"></p>
+<h3 id="博客訪客和閱讀量統計"><a href="#博客訪客和閱讀量統計" class="headerlink" title="博客訪客和閱讀量統計"></a>博客訪客和閱讀量統計</h3><p>busuanzi（不蒜子） 是一個輕量級的網站訪問量和文章閱讀量統計工具，適合用於 Hexo 博客等靜態網站。它無需註冊或配置後端服務，通過嵌入 JavaScript 即可實現訪問量和閱讀量的統計。</p>
+<p>參考：<a target="_blank" rel="noopener" href="https://busuanzi.ibruce.info/">https://busuanzi.ibruce.info/</a></p>
+<h4 id="配置插件-3"><a href="#配置插件-3" class="headerlink" title="配置插件"></a>配置插件</h4><p>在 Next 的配置文件 <strong><code>themes\next\_config.yml</code></strong> 中修改成以下內容：</p>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token comment"># Show Views / Visitors of the website / page with busuanzi.</span>
+<span class="token comment"># For more information: http://ibruce.info/2015/04/04/busuanzi/</span>
+<span class="token key atrule">busuanzi_count</span><span class="token punctuation">:</span>
+  <span class="token key atrule">enable</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+  <span class="token key atrule">total_visitors</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+  <span class="token key atrule">total_visitors_icon</span><span class="token punctuation">:</span> fa fa<span class="token punctuation">-</span>user
+  <span class="token key atrule">total_views</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+  <span class="token key atrule">total_views_icon</span><span class="token punctuation">:</span> fa fa<span class="token punctuation">-</span>eye
+  <span class="token key atrule">post_views</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+  <span class="token key atrule">post_views_icon</span><span class="token punctuation">:</span> far fa<span class="token punctuation">-</span>eye<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<blockquote>
+<p>等我發掘到好玩的插件會繼續更新～</p>
+<p><em>未完待續……</em></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <span class="social-link">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </span>
+
+          <img class="social-item-img" src="/images/wechat_channel.jpg">
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/nodejs/" rel="tag"># nodejs</a>
+              <a href="/tags/hexo/" rel="tag"># hexo</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/jsp%E8%A8%AA%E5%95%8FAPI%E5%A0%B1%E9%8C%AFPKIX%20path%20building%20failed%EF%BC%8CJAVA%E6%B7%BB%E5%8A%A0%E4%BF%A1%E4%BB%BBSSL%E8%AD%89%E6%9B%B8/" rel="prev" title="jsp 訪問 API 報錯 PKIX path building failed，JAVA 添加信任 SSL 證書">
+                  <i class="fa fa-angle-left"></i> jsp 訪問 API 報錯 PKIX path building failed，JAVA 添加信任 SSL 證書
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/%E5%A6%82%E4%BD%95%E5%9C%A8vscode%E8%87%AA%E5%8B%95%E7%94%9F%E6%88%90md%E7%9B%AE%E9%8C%84%E4%B8%A6%E8%BD%89%E6%8F%9B%E6%A0%BC%E5%BC%8F/" rel="next" title="如何在 vscode 自動生成 md 目錄並轉換格式">
+                  如何在 vscode 自動生成 md 目錄並轉換格式 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-carrot"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">ArHay</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">20k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:41</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+
+  <a href="https://github.com/ArHay0612" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+<!-- hexo injector body_end start --><script data-pjax src="https://registry.npmmirror.com/oh-my-live2d/latest/files"></script><script>const oml2d = OML2D.loadOml2d({dockedPosition:"right",menus:{items:[{id:"github",icon:"icon-switch",title:"我的github",onClick:()=>window.open('https://github.com/ArHay0612')}]},mobileDisplay:true,models:[{"path":"\\live2d_models\\fll\\fll.model3.json","mobilePosition":[-10,23],"mobileScale":0.1,"mobileStageStyle":{"width":180,"height":166},"motionPreloadStrategy":"IDLE","position":[-10,35],"scale":0.15,"stageStyle":{"width":300,"height":450}}],parentElement:document.body,primaryColor:"var(--btn-bg)",sayHello:false,tips:{style: {"width":230,"height":120,"left":"calc(50% - 20px)","top":"-100px"},mobileStyle: {"width":180,"height":80,"left":"calc(50% - 30px)","top":"-100px"},idleTips:{interval:10000,duration:1500,message:["你好呀,欢迎来到ArHay的小站~"]}}});</script><!-- hexo injector body_end end --></body>
+</html>
